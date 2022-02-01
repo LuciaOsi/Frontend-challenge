@@ -16,26 +16,32 @@
  *   </div>
  */
 
-import { useState, useEffect } from "react";
+ import { useEffect, useState } from "react";
 
-export function PlayerStatus() {
-	const [status, setStatus] = useState("Online");
-	const [counter, setCounter] = useState(0);
+ export function PlayerStatus() {
+	 const [status, setStatus] = useState("Online");
+	 const [counter, setCounter] = useState(0);
 
-	// Toggle between the two status values - 'Away' and 'Online'
-	function onToggleStatus() {
-		// Write your code here
-	}
-
-	// Implement effect hook below.
-	// Update the counter when status changes.
-	useEffect(() => {}, []);
-
-	return (
-		<div>
-			<h1>{/** Render the status */}</h1>
-			<h3>{/** Render the counter */}</h3>
-			<button>Toggle status</button>
-		</div>
-	);
-}
+	 // Toggle between the two status values - 'Away' and 'Online' depending on the counter
+	 // If the counter begins at 1 in status Online, when the counter is even the status is Away
+	 function onToggleStatus() {
+		 if (counter % 2 === 0)
+		 	setStatus("Online")
+		 else 
+			setStatus("Away")
+	 }
+ 
+	 // Implement effect hook below.
+	 // Update the counter when status changes.
+	 useEffect(() => {
+			setCounter(counter + 1)
+	 }, [status]);
+ 
+	 return (
+		 <div>
+			 <h1>{status}</h1>
+			 <h3>{counter}</h3>
+			 <button onClick={() => {onToggleStatus()}}>Toggle status</button>
+		 </div>
+	 );
+ }

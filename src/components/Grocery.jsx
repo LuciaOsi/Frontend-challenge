@@ -21,31 +21,71 @@
  *     </li>
  *   </ul>
  */
-
+import { useState } from "react";
+import "bootstrap/dist/css/bootstrap.css";
+import Button from "react-bootstrap/Button";
 function Product(props) {
-	function handlePlus() {
-		// logic to vote a product
-	}
+  const { product, vote } = props;
 
-	function handleMinus() {
-		// logic to unvote a product
-	}
+  //Adds a vote to the selected product
+  function handlePlus(id) {
+    vote(id, 1);
+  }
 
-	return (
-		<li>
-			<span>
-				{/* Product name */} - votes: {/* Number of votes*/}
-			</span>
-			<button onClick={handlePlus}>+</button>
-			<button onClick={handleMinus}>-</button>
-		</li>
-	);
+  //Substracts a vote to the selected product
+  function handleMinus(id) {
+    vote(id, -1);
+  }
+
+  return (
+    <li>
+      <span>
+        {product.name} - votes: {product.votes}
+      </span>
+      <Button
+        onClick={() => handlePlus(product.id)}
+        variant="success"
+        size="sm"
+      >
+        +
+      </Button>
+      <Button
+        onClick={() => handleMinus(product.id)}
+        variant="danger"
+        size="sm"
+      >
+        -
+      </Button>
+    </li>
+  );
 }
 
 export function Grocery({ products }) {
-	return (
-		<ul>
-			{/* Render an array of products, which should call onVote when + or - is clicked */}
-		</ul>
-	);
+  //To the given list of products we add a property "id" in order to identify them better
+  products.forEach((product, index) => {
+    product["id"] = index;
+  });
+  const [groceryProducts, setProducts] = useState(products);
+
+  // Parameters: productId and vote.
+  // The vote will be 1 if we want to add a vote or -1 if we want to substract a vote
+  // The selected product is find by id
+  // Updates the products state
+  function Vote(productId, vote) {
+    if (productId != null) {
+      const groceryList = [...groceryProducts].map((product) => {
+        if (product.id === productId) product.votes += vote;
+        return product;
+      });
+      setProducts(groceryList);
+    }
+  }
+
+  return (
+    <ul>
+      {groceryProducts.map((p) => (
+        <Product product={p} vote={Vote}></Product>
+      ))}
+    </ul>
+  );
 }

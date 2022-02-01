@@ -24,6 +24,56 @@
  * </div>
  */
 
+import { useState } from "react";
+import "../style/Rating.css";
+function Star(props) {
+  const { starId, active, changeStatus } = props;
+  const className = active ? "active" : "";
+  return (
+      <span
+        id={starId}
+        className={className + " mx-2"}
+        onClick={() => changeStatus(starId)}
+      >
+        *
+      </span>
+  );
+}
+
 export function Rating() {
-	return null;
+  const ratings = [
+    { id: "1S", active: false },
+    { id: "2S", active: false },
+    { id: "3S", active: false },
+    { id: "4S", active: false },
+    { id: "5S", active: false },
+  ];
+  const [stars, setStars] = useState(ratings);
+
+  //Parameter key: the key that corresponds to the clicked star
+  //The function change Status sets the active prop in true till the id matches the given key
+  //All of the remaining starts are set to false
+  const changeStatus = (key) => {
+    let founded = false;
+    const updatedStars = [...stars];
+    updatedStars.forEach((star) => {
+      star.active = false;
+      if (!founded) {
+        star.active = true;
+        if (star.id == key) founded = true;
+      }
+    });
+    setStars(updatedStars);
+  };
+  return (
+    <div class="rating">
+      {stars.map((star) => (
+        <Star
+          starId={star.id}
+          active={star.active}
+          changeStatus={changeStatus}
+        ></Star>
+      ))}
+    </div>
+  );
 }

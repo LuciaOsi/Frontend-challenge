@@ -10,11 +10,14 @@
  * - Finish the Message component by implementing this logic.
  */
 
+import { useState } from "react";
+
 export function Message() {
+	const [show, setShow] = useState(false);
 	return (
 		<>
-			<a href="#">Want to buy a new car?</a>
-			<p>Call +11 22 33 44 now!</p>
+			<a href="#" onClick={() => setShow(!show)}>Want to buy a new car?</a>
+			{show && <p>Call +11 22 33 44 now!</p>}
 		</>
 	);
 }

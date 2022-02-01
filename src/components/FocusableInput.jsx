@@ -24,7 +24,6 @@ const TextInput = React.forwardRef((props, ref) => {
 // If focused prop is true, the input should receive the focus.
 export function FocusableInput({ focusable = false }) {
 	const inputRef = createRef();
-
 	useEffect(() => focusable && inputRef.current.focus(), [focusable, inputRef]);
-	return <TextInput ref={inputRef} />;
+	return (<TextInput ref={inputRef}/>);
 }
